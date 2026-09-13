@@ -1,0 +1,90 @@
+[
+  {
+    "doc_id": "PROD-0001",
+    "title": "Email: Merger timing",
+    "author": "j.khan@acme.example",
+    "recipients": ["legal@acme.example"],
+    "created_at": "2025-03-02T14:05:00+00:00",
+    "doc_type": "email",
+    "custodian": "J. Khan",
+    "native_metadata": {"bates_start": "ACME-000001", "guid": "8f21-aa31"},
+    "text": "We plan to announce the merger next week after the board signs off. Please coordinate with the PR team before releasing any details. The deal value remains under negotiation."
+  },
+  {
+    "doc_id": "PROD-0002",
+    "title": "Email: Counsel instruction on merger announcement",
+    "author": "outside-counsel@lawfirm.example",
+    "recipients": ["j.khan@acme.example"],
+    "created_at": "2025-03-03T09:00:00+00:00",
+    "doc_type": "email",
+    "custodian": "Outside Counsel",
+    "native_metadata": {"bates_start": "ACME-000014", "privilege_log_ref": "LP-007"},
+    "text": "This memo provides legal advice prepared at your request regarding the merger announcement. Do not disclose this advice outside the legal hold group. The antitrust risk of an early leak is material and I recommend a litigation hold on relevant custodians."
+  },
+  {
+    "doc_id": "PROD-0003",
+    "title": "NDA between ACME and BEACON",
+    "author": "legal@acme.example",
+    "recipients": [],
+    "created_at": "2025-02-11T12:00:00+00:00",
+    "doc_type": "contract",
+    "custodian": "Legal Department",
+    "native_metadata": {"bates_start": "ACME-000044"},
+    "text": "The parties executed a mutual NDA on March 1 2025. The deal terms disclosed under the NDA remain confidential for five years. Neither party may disclose the terms to third parties without prior written consent."
+  },
+  {
+    "doc_id": "PROD-0004",
+    "title": "Expense report",
+    "author": "intern@acme.example",
+    "recipients": ["finance@acme.example"],
+    "created_at": "2025-03-05T16:30:00+00:00",
+    "doc_type": "other",
+    "custodian": "Intern",
+    "native_metadata": {"bates_start": "ACME-000102"},
+    "text": "Submitted reimbursement for office supplies including paper and toner for the second floor printer. Total amount forty two dollars and ten cents."
+  },
+  {
+    "doc_id": "PROD-0005",
+    "title": "Whistleblower complaint",
+    "author": "compliance@acme.example",
+    "recipients": ["board@acme.example"],
+    "created_at": "2025-03-06T08:15:00+00:00",
+    "doc_type": "memo",
+    "custodian": "Compliance",
+    "native_metadata": {"bates_start": "ACME-000120", "hot": true},
+    "text": "URGENT escalation: the CFO approved backdated revenue recognition on the Beacon account totaling eight million dollars before Q1 close. This requires immediate investigation and notification to outside auditors. Do not circulate outside the board."
+  },
+  {
+    "doc_id": "PROD-0006",
+    "title": "Litigation hold notice",
+    "author": "legal@acme.example",
+    "recipients": ["all-staff@acme.example"],
+    "created_at": "2025-03-07T10:00:00+00:00",
+    "doc_type": "policy",
+    "custodian": "Legal Department",
+    "native_metadata": {"bates_start": "ACME-000155"},
+    "text": "Effective immediately all employees must preserve documents related to the Beacon matter including emails spreads and chat records. The legal hold covers all custodians named in the attached schedule. Destruction of documents may result in sanctions."
+  },
+  {
+    "doc_id": "PROD-0007",
+    "title": "Deposition transcript excerpt",
+    "author": "court reporter",
+    "recipients": [],
+    "created_at": "2025-04-01T09:00:00+00:00",
+    "doc_type": "transcript",
+    "custodian": "Court Reporter",
+    "native_metadata": {"bates_start": "DEP-000002"},
+    "text": "Q: When did you first learn the merger was under discussion? A: I learned about the merger in late January when the CFO called a strategy meeting. Q: Who was present at that meeting? A: The CFO the VP of finance and two members of outside counsel were present."
+  },
+  {
+    "doc_id": "PROD-0008",
+    "title": "Coffee order email",
+    "author": "office@acme.example",
+    "recipients": ["vendor@coffee.example"],
+    "created_at": "2025-03-04T11:00:00+00:00",
+    "doc_type": "email",
+    "custodian": "Office Manager",
+    "native_metadata": {"bates_start": "ACME-000180"},
+    "text": "Please deliver twenty cups of coffee and four boxes of assorted pastries to the tenth floor conference room on Friday morning for the vendor meeting."
+  }
+]

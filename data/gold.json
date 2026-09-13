@@ -1,0 +1,72 @@
+[
+  {
+    "id": "g1",
+    "query": "Are the deal terms confidential and under NDA?",
+    "expected_doc": "PROD-0003",
+    "expected_category": "responsiveness",
+    "must_cite": true
+  },
+  {
+    "id": "g2",
+    "query": "Which communication is legal advice from counsel that may be privileged?",
+    "expected_doc": "PROD-0002",
+    "expected_category": "privilege",
+    "must_cite": true
+  },
+  {
+    "id": "g3",
+    "query": "What document shows potential fraud or accounting misconduct?",
+    "expected_doc": "PROD-0005",
+    "expected_category": "hot-doc",
+    "must_cite": true
+  },
+  {
+    "id": "g4",
+    "query": "Which notice imposes document preservation obligations?",
+    "expected_doc": "PROD-0006",
+    "expected_category": "responsiveness",
+    "must_cite": true
+  },
+  {
+    "id": "g5",
+    "query": "Which document is a coffee and pastries order?",
+    "expected_doc": "PROD-0008",
+    "expected_category": "irrelevant",
+    "must_cite": true
+  },
+  {
+    "id": "g6",
+    "query": "What did the CFO approve before Q1 close on the Beacon account?",
+    "expected_doc": "PROD-0005",
+    "expected_category": "hot-doc",
+    "must_cite": true
+  },
+  {
+    "id": "g7",
+    "query": "When was the mutual NDA executed?",
+    "expected_doc": "PROD-0003",
+    "expected_category": "responsiveness",
+    "must_cite": true
+  },
+  {
+    "id": "g8",
+    "query": "Who attends the strategy meeting about the merger per the deposition?",
+    "expected_doc": "PROD-0007",
+    "expected_category": "responsiveness",
+    "must_cite": true
+  },
+  {
+    "id": "g9",
+    "query": "What is the total reimbursement amount in the expense report?",
+    "expected_doc": "PROD-0004",
+    "expected_category": "irrelevant",
+    "must_cite": true
+  },
+  {
+    "id": "g10",
+    "query": "What is the capital structure of the company?",
+    "expected_doc": null,
+    "expected_category": null,
+    "must_cite": false
+  }
+]
