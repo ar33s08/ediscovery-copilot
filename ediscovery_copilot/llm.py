@@ -88,8 +88,9 @@ class ExtractiveFallbackProvider:
 
     name = "extractive-fallback"
 
-    def __init__(self, max_sentences: int = 3, min_score: float = 1e-9,
-                 min_sentence_overlap: int = 2) -> None:
+    def __init__(
+        self, max_sentences: int = 3, min_score: float = 1e-9, min_sentence_overlap: int = 2
+    ) -> None:
         self.max_sentences = max_sentences
         self.min_score = min_score
         self.min_sentence_overlap = min_sentence_overlap
