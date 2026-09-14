@@ -3,7 +3,7 @@
 **Citation-grounded, audit-grade document review for e-discovery — an AI copilot that
 answers review questions only when it can prove the answer, and refuses otherwise.**
 
-[![CI](https://github.com/ar33s08/ediscovery-copilot/actions/workflows/CI/badge.svg)](https://github.com/ar33s08/ediscovery-copilot/actions)
+[![CI](https://github.com/ar33s08/ediscovery-copilot/actions/workflows/ci.yml/badge.svg)](https://github.com/ar33s08/ediscovery-copilot/actions?query=branch%3Amain)
 [![Python 3.11+](https://shields.io/badge/Python-3.11%2B-blue.svg)]()
 [![License MIT](https://shields.io/badge/License-MIT-green.svg)]()
 
