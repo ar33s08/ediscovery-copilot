@@ -16,7 +16,7 @@ from __future__ import annotations
 
 from typing import Any, Protocol
 
-from ediscovery_copilot.retrieval import Scored
+from ediscovery_copilot.retrieval import Scored, tokenize
 
 
 class LLMError(RuntimeError):
@@ -88,14 +88,29 @@ class ExtractiveFallbackProvider:
 
     name = "extractive-fallback"
 
-    def __init__(self, max_sentences: int = 3, min_score: float = 1e-9) -> None:
+    def __init__(self, max_sentences: int = 3, min_score: float = 1e-9,
+                 min_sentence_overlap: int = 2) -> None:
         self.max_sentences = max_sentences
         self.min_score = min_score
+        self.min_sentence_overlap = min_sentence_overlap
 
     def synthesize(self, query: str, evidence: list[Scored]) -> RawAnswer:
+        """Compose an answer from verbatim sentences of retrieved chunks.
+
+        Sentence-level evidence floor (refusal is a feature): a sentence may be
+        quoted only if it shares >= min_sentence_overlap stemmed content tokens
+        with the question. A single incidental shared word (e.g. "employees"
+        bridging a dividend query to a litigation-hold notice) is NOT topical
+        evidence -- quoting it would be a false-confidence failure, worse than
+        silence. When no retrieved sentence clears the floor the provider
+        REFUSES (INSUFFICIENT_EVIDENCE) and the item routes to a human. This is
+        the offline/deterministic precision bias; paraphrase answering is the
+        LLM provider's documented job (see ADR-0003).
+        """
         usable = [s for s in evidence if s.score >= self.min_score]
         if not usable:
             return RawAnswer("INSUFFICIENT_EVIDENCE", [], self.name)
+        query_terms = set(tokenize(query))
         lines: list[str] = []
         used_ids: list[str] = []
         seen: set[str] = set()
@@ -105,6 +120,10 @@ class ExtractiveFallbackProvider:
                 key = clean.casefold()
                 if len(clean) < 25 or key in seen:
                     continue
+                if query_terms:
+                    shared = len(query_terms & set(tokenize(clean)))
+                    if shared < self.min_sentence_overlap:
+                        continue
                 seen.add(key)
                 lines.append(f"{clean} [{scored.chunk.chunk_id}]")
                 used_ids.append(scored.chunk.chunk_id)

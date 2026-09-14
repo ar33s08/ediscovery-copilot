@@ -103,3 +103,17 @@ def test_verification_dict_shape():
 
 
 INSUFFICIENT_EVIDENCE_PLACEHOLDER = "INSUFFICIENT_EVIDENCE"
+
+
+def test_offline_provider_refuses_paraphrase_only_query_and_routes_human(agent):
+    # "fraud"/"misconduct" never appear literally in the fraud doc; offline the
+    # extractive provider refuses instead of quoting a 1-token coincidental
+    # match (documented precision bias, ADR-0003). Retrieval must still rank the
+    # right document first so the human reviewer lands on the evidence.
+    hits = agent.retriever.search(
+        "Which document shows potential fraud or accounting misconduct?", top_k=5
+    )
+    assert hits[0].chunk.doc_id == "PROD-0005"
+    q = agent.ask("Which document shows potential fraud or accounting misconduct?")
+    assert q.answer == "INSUFFICIENT_EVIDENCE"
+    assert q.needs_human_review is True

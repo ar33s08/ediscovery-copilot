@@ -27,10 +27,26 @@ def test_fallback_produces_grounded_sentences():
         )
     ]
     p = ExtractiveFallbackProvider(max_sentences=2)
-    raw = p.synthesize("settlement?", ev)
+    raw = p.synthesize("what was the settlement amount", ev)
     assert raw.text
     assert "settlement" in raw.text.casefold()
     assert "c1" in raw.support_ids
+
+
+def test_fallback_refuses_on_single_coincidental_token():
+    # "beacon" is the ONLY token the question shares with this sentence. Quoting
+    # it would answer a question the evidence does not actually address.
+    ev = [
+        _mk_scored(
+            "c1",
+            "Effective immediately all employees must preserve documents related to the "
+            "Beacon matter including emails spreads and chat records from every device.",
+            score=0.9,
+        )
+    ]
+    raw = ExtractiveFallbackProvider().synthesize("When was Beacon notified about the audit?", ev)
+    assert raw.text.startswith("INSUFFICIENT")
+    assert raw.support_ids == []
 
 
 def test_fallback_refuses_when_empty_evidence():
@@ -54,7 +70,7 @@ def test_fallback_deduplicates_sentences():
         ),
     ]
     provider = ExtractiveFallbackProvider(max_sentences=4)
-    raw = provider.synthesize("hold", ev)
+    raw = provider.synthesize("who does the litigation hold cover", ev)
     assert raw.text.count("litigation hold covers") == 1
 
 

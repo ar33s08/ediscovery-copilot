@@ -49,8 +49,12 @@ Design choices worth stealing (see `docs/adr/`):
   fusion; rankings are reproducible and unit-testable without any network.
 - **Offline first.** With no API key configured, an extractive provider keeps the
   entire product honest: answers are literal quotes and the eval still passes.
-- **Refusal is a feature.** A relevance floor drops weak evidence; the system prefers
-  `INSUFFICIENT_EVIDENCE` + human review over a plausible guess.
+- **Refusal is a feature.** The extractive provider quotes only sentences that share
+  >= 2 stemmed content tokens with the question, so a single coincidental word can not
+  smuggle an off-topic passage into an "answer." If no sentence clears the bar it returns
+  `INSUFFICIENT_EVIDENCE` and routes to a human. This is a documented, measured precision
+  bias for the offline path; semantic/paraphrase answering is the LLM provider's job
+  (ADR-0003). A confidently-quoted off-topic passage is the worst failure mode.
 - **Auditability as a data structure.** The audit trail is a hash chain, not just a log.
 
 ## Quickstart
@@ -86,8 +90,14 @@ Use the API:
 ```bash
 curl -X POST http://127.0.0.1:8000/questions \
   -H "Content-Type: application/json" \
-  -d '{"query": "Which document shows potential fraud or accounting misconduct?"}'
+  -d '{"query": "What did the CFO approve before Q1 close on the Beacon account?"}'
 ```
+
+Returns a verbatim, citation-tagged answer grounded in the misconduct memo
+(`PROD-0005`) with `confidence: 1.0`. Ask something the corpus does not cover
+(e.g. a dividend policy that is nowhere in the record) and it returns
+`INSUFFICIENT_EVIDENCE` with `needs_human_review: true` instead of guessing —
+the difference that makes this defensible rather than demo-grade.
 
 ## Evaluation (measures hallucination rate on a gold set)
 

@@ -29,7 +29,6 @@ from ediscovery_copilot.retrieval import Retriever
 
 INSUFFICIENT = "INSUFFICIENT_EVIDENCE"
 MIN_SUPPORT_RATIO = 0.6
-MIN_QUERY_OVERLAP = 0.05  # relevance floor for evidence chunks
 
 
 @dataclass
@@ -128,7 +127,7 @@ class ReviewAgent:
 
     def ask(self, query: str, category: ReviewCategory | None = None) -> Question:
         qid = uuid.uuid4().hex[:12]
-        hits = self._relevant_hits(query)
+        hits = self.retriever.search(query, top_k=self.top_k)
         answer = self.provider.synthesize(query, hits)
         ver = verify_answer(answer, self.corpus.chunk_index)
         confidence = ver.support_ratio if answer.text.strip() != INSUFFICIENT else 0.0
@@ -154,25 +153,6 @@ class ReviewAgent:
             },
         )
         return q
-
-    def _relevant_hits(self, query: str):
-        """Drop chunks with no topical token overlap with the query.
-
-        Fused (RRF) scores encode rank, not semantic relevance, so a noisy
-        tail can surface off-topic chunks. The trust-critical rule: the system
-        would rather REFUSE and route to a human than answer off weak evidence.
-        """
-        hits = self.retriever.search(query, top_k=self.top_k)
-        qtoks = {w for w in _words(normalize_text(query)) if w not in _STOP}
-        if not qtoks:
-            return hits
-        kept = []
-        for hit in hits:
-            ctoks = {w for w in _words(normalize_text(hit.chunk.text)) if w not in _STOP}
-            overlap = len(qtoks & ctoks) / len(qtoks)
-            if overlap >= MIN_QUERY_OVERLAP:
-                kept.append(hit)
-        return kept
 
     def record_decision(self, q: Question, decision: ReviewDecision) -> None:
         self.audit.record(
